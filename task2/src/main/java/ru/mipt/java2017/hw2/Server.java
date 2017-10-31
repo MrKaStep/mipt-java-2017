@@ -3,11 +3,9 @@ package ru.mipt.java2017.hw2;
 
 import static java.lang.System.exit;
 
-import com.google.protobuf.ByteString;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
