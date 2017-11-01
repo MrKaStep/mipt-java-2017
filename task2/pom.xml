@@ -21,8 +21,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
       <plugin>
@@ -47,18 +47,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
-          <!-- DO NOT include log4j.properties file in your Jar -->
-          <excludes>
-            <exclude>**/log4j.properties</exclude>
-          </excludes>
           <archive>
             <manifest>
-              <!-- Jar file entry point -->
-              <mainClass>com.mkyong.core.utils.App</mainClass>
+              <mainClass>ru.mipt.java2017.hw2.Client</mainClass>
             </manifest>
           </archive>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
   <dependencies>
