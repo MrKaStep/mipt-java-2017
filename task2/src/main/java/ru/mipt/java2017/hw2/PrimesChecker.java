@@ -35,10 +35,8 @@ public class PrimesChecker {
     return BigInteger.valueOf(number).isProbablePrime(40) && isPrimeNaive(number);
   }
 
-  public Future<Boolean> isPrimePromise(final long number) {
-    return number >= 1000000000000L
-        ? executorService.submit(() -> isPrime(number))
-        : executorService.submit(() -> isPrimeNaive(number));
+  public Future<Boolean> isPrimePromise(long number) {
+    return executorService.submit(() -> isPrimeNaive(number));
   }
 
 
