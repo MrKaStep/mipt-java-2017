@@ -81,8 +81,8 @@ class Dispatcher {
     pushLock.lock();
     logger.debug("Entering pushRequests");
     while (!queries.isEmpty() && !servers.isEmpty()) {
-      int serverIndex = servers.poll();
-      Range query = queries.poll();
+      final int serverIndex = servers.poll();
+      final Range query = queries.poll();
       logger.debug("Sending request [{},{}) to server {}",
           query.getStart(),
           query.getEnd(),
