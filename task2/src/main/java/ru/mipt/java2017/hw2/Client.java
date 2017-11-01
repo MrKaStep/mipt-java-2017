@@ -23,6 +23,7 @@ public class Client {
   }
 
   static class Address {
+
     final String host;
     final int port;
 
@@ -45,13 +46,16 @@ public class Client {
   static private int getRequestsCount(long start, long end, int serversCount) {
     int minCount = serversCount * 2;
     int maxCount = serversCount * 20;
-    int suggestedCount = (int)(end - start) / (int)(Math.max(1, 1e9 / Math.sqrt(end)));
-    if(end - start < minCount)
-      return (int)(end - start);
-    if(suggestedCount < minCount)
+    int suggestedCount = (int) (end - start) / (int) (Math.max(1, 1e9 / Math.sqrt(end)));
+    if (end - start < minCount) {
+      return (int) (end - start);
+    }
+    if (suggestedCount < minCount) {
       return minCount;
-    if(suggestedCount > maxCount)
+    }
+    if (suggestedCount > maxCount) {
       return maxCount;
+    }
     return suggestedCount;
   }
 
@@ -61,10 +65,10 @@ public class Client {
 
   /**
    * Acquires result for given range
+   *
    * @param start - start of the range (inclusive)
    * @param end - end of the range (exclusive)
    * @return Sum of primes on given range
-   * @throws InterruptedException
    */
 
   private long getResult(long start, long end) throws InterruptedException {
@@ -87,7 +91,7 @@ public class Client {
     logger.info("All results acquired");
 
     long result = 0;
-    for(long b : results) {
+    for (long b : results) {
       result += b;
     }
 
@@ -96,12 +100,12 @@ public class Client {
 
   /**
    * Prints sum of prime numbers on given range
+   *
    * @param args - Range to calculate sum on. After - host-port pairs of servers
-   * @throws InterruptedException
    */
 
   public static void main(String[] args) throws InterruptedException {
-    if(args.length < 4 || args.length % 2 != 0) {
+    if (args.length < 4 || args.length % 2 != 0) {
       System.err.println("Usage: <start> <end> <host1> <port1> [<host2> <port2> ...]");
       return;
     }

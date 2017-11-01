@@ -18,10 +18,12 @@ public class PrimesChecker {
   }
 
   private boolean isPrimeNaive(long number) {
-    if(number == 2)
+    if (number == 2) {
       return true;
-    if(number % 2 == 0)
+    }
+    if (number % 2 == 0) {
       return false;
+    }
     long top = (long) ceil(sqrt(number));
     for (long i = 3; i <= top; i += 2) {
       if (number % i == 0) {

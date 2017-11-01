@@ -17,12 +17,11 @@ import ru.mipt.java2017.hw2.Client.Address;
 
 
 /**
- * Class for handling client-server communication.
- * Main purpose - distributing requests between servers and returning results to the client
- *
- *
+ * Class for handling client-server communication. Main purpose - distributing requests between
+ * servers and returning results to the client
  */
 class Dispatcher {
+
   private static Logger logger = LoggerFactory.getLogger("Dispatcher");
 
   private final List<ManagedChannel> channels;
@@ -38,6 +37,7 @@ class Dispatcher {
 
   /**
    * Creates new Dispatcher entry
+   *
    * @param addresses - hosts addresses to connect to
    */
 
@@ -62,6 +62,7 @@ class Dispatcher {
 
   /**
    * Returns total amount of servers
+   *
    * @return - servers available //TODO
    */
   int getServersCount() {
@@ -71,15 +72,15 @@ class Dispatcher {
   /**
    * Attempts to push all pending requests to servers
    *
-   * In case of failed request (server failure) put query back to queue
-   * without returning server to queue
+   * In case of failed request (server failure) put query back to queue without returning server to
+   * queue
    *
    * After successful response, push server back to queue
    */
   private void pushRequests() {
     pushLock.lock();
     logger.debug("Entering pushRequests");
-    while(!queries.isEmpty() && !servers.isEmpty()) {
+    while (!queries.isEmpty() && !servers.isEmpty()) {
       int serverIndex = servers.poll();
       Range query = queries.poll();
       logger.debug("Sending request [{},{}) to server {}",
@@ -116,6 +117,7 @@ class Dispatcher {
 
   /**
    * Add new request to queue
+   *
    * @param range - range queried
    */
 
@@ -126,7 +128,7 @@ class Dispatcher {
   }
 
   void shutdown() throws InterruptedException {
-    for(int i = 0; i < channels.size(); ++i) {
+    for (int i = 0; i < channels.size(); ++i) {
       channels.get(i).shutdown().awaitTermination(1, TimeUnit.SECONDS);
     }
   }

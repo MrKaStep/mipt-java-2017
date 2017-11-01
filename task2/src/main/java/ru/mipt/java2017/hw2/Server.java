@@ -50,26 +50,25 @@ public class Server {
   }
 
   private void stop() {
-    if(server != null) {
+    if (server != null) {
       server.shutdown();
     }
   }
 
   private void blockUntilShutdown() throws InterruptedException {
-    if(server != null) {
+    if (server != null) {
       server.awaitTermination();
     }
   }
 
   /**
    * Start the server
+   *
    * @param args - number of available cores and port to listen to
-   * @throws IOException
-   * @throws InterruptedException
    */
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    if(args.length != 2) {
+    if (args.length != 2) {
       System.err.println("Usage: server <# of cores> <port>");
       exit(-1);
     }
@@ -96,12 +95,11 @@ public class Server {
 
       logger.debug("Got request for range [{},{})", start, end);
 
-      List<Future<Boolean>> promises = new ArrayList<Future<Boolean>>((int)(end - start));
-      for(int i = 0; i < end - start; ++i) {
+      List<Future<Boolean>> promises = new ArrayList<Future<Boolean>>((int) (end - start));
+      for (int i = 0; i < end - start; ++i) {
         Future<Boolean> promise = primesChecker.isPrimePromise(start + i);
         promises.add(promise);
       }
-
 
       long ans = 0;
 
@@ -110,11 +108,11 @@ public class Server {
         boolean prime = false;
         try {
           prime = promise.get();
-        } catch (InterruptedException|ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
           logger.error(e.getMessage());
         }
         logger.debug("{} is " + (prime ? "" : "not ") + "prime", start + i);
-        if(prime) {
+        if (prime) {
           ans += start + i;
         }
       }
