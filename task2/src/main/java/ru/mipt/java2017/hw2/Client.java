@@ -42,16 +42,20 @@ public class Client {
     dispatcher.sendRequest(range);
   }
 
-  private int getRequestsCount(long start, long end, int serversCount) {
-    double t = Math.ceil(Math.sqrt(start)) / 1e5;
-    int suggestedSize = (int)Math.min(Math.min(1000, end - start), (double)(end - start) / t);
-    logger.debug("suggestedSize: " + suggestedSize);
-    if(suggestedSize <= 1)
+  static private int getRequestsCount(long start, long end, int serversCount) {
+    int minCount = serversCount * 2;
+    int maxCount = serversCount * 20;
+    int suggestedCount = (int)(end - start) / (int)(Math.max(1, 1e9 / Math.sqrt(end)));
+    if(end - start < minCount)
       return (int)(end - start);
-    return (int)(end - start) / Math.min(suggestedSize, (int)(end - start) / serversCount / 2);
+    if(suggestedCount < minCount)
+      return minCount;
+    if(suggestedCount > maxCount)
+      return maxCount;
+    return suggestedCount;
   }
 
-  private long getIthPoint(long start, long end, int i, int N) {
+  static private long getIthPoint(long start, long end, int i, int N) {
     return start + (end - start) / N * i + (Math.min(i, (end - start) % N));
   }
 

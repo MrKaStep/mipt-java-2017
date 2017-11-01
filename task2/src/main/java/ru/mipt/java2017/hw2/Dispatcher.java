@@ -10,6 +10,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.mipt.java2017.hw2.Client.Address;
@@ -29,6 +30,8 @@ class Dispatcher {
 
   private final BlockingQueue<Integer> servers = new LinkedBlockingQueue<Integer>();
   private final BlockingQueue<Range> queries = new LinkedBlockingQueue<>();
+
+  private final ReentrantLock pushLock = new ReentrantLock();
 
   private BlockingQueue<Long> results;
   private CountDownLatch latch;
@@ -74,11 +77,12 @@ class Dispatcher {
    * After successful response, push server back to queue
    */
   private void pushRequests() {
+    pushLock.lock();
     logger.debug("Entering pushRequests");
     while(!queries.isEmpty() && !servers.isEmpty()) {
       int serverIndex = servers.poll();
       Range query = queries.poll();
-      logger.info("Sending request [{},{}) to server {}",
+      logger.debug("Sending request [{},{}) to server {}",
           query.getStart(),
           query.getEnd(),
           serverIndex + 1);
@@ -101,12 +105,13 @@ class Dispatcher {
             public void onCompleted() {
               latch.countDown();
               servers.add(serverIndex);
-              logger.info("Server {} free", serverIndex + 1);
+              logger.debug("Server {} free", serverIndex + 1);
               pushRequests();
             }
           });
     }
     logger.debug("Exiting pushRequests");
+    pushLock.unlock();
   }
 
   /**
@@ -115,7 +120,7 @@ class Dispatcher {
    */
 
   void sendRequest(Range range) {
-    logger.info("Recieved request [{},{})", range.getStart(), range.getEnd());
+    logger.debug("Recieved request [{},{})", range.getStart(), range.getEnd());
     queries.add(range);
     pushRequests();
   }

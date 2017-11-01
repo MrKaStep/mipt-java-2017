@@ -94,7 +94,7 @@ public class Server {
       long start = range.getStart();
       long end = range.getEnd();
 
-      logger.info("Got request for range [{},{})", start, end);
+      logger.debug("Got request for range [{},{})", start, end);
 
       List<Future<Boolean>> promises = new ArrayList<Future<Boolean>>((int)(end - start));
       for(int i = 0; i < end - start; ++i) {
@@ -118,7 +118,7 @@ public class Server {
           ans += start + i;
         }
       }
-      logger.info("Sending result for range [{},{})", start, end);
+      logger.debug("Sending result for range [{},{})", start, end);
       responseObserver.onNext(PrimesSum.newBuilder().setValue(ans).build());
       responseObserver.onCompleted();
     }

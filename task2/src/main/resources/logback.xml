@@ -13,7 +13,7 @@
     <appender-ref ref="STDERR" />
   </logger>
 
-  <logger name="Dispatcher" level="info" additivity="false">
+  <logger name="Dispatcher" level="debug" additivity="false">
     <appender-ref ref="STDERR" />
   </logger>
 
