@@ -35,7 +35,7 @@ public class PrimesChecker {
   }
 
   public boolean isPrime(long number) {
-    return BigInteger.valueOf(number).isProbablePrime(200);// && isPrimeNaive(number);
+    return BigInteger.valueOf(number).isProbablePrime(200); // && isPrimeNaive(number);
   }
 
   public Future<Boolean> isPrimePromise(final long number) {

@@ -42,9 +42,9 @@ class Dispatcher {
    */
 
   Dispatcher(List<Address> addresses) {
-    int N = addresses.size();
+    int serversCount = addresses.size();
 
-    List<ManagedChannel> channels = new ArrayList<>(N);
+    channels = new ArrayList<>(serversCount);
     for (Address address : addresses) {
       channels.add(ManagedChannelBuilder.forAddress(address.host, address.port)
           .usePlaintext(true)
@@ -52,9 +52,8 @@ class Dispatcher {
       );
       logger.debug("Added channel for address {}:{}", address.host, address.port);
     }
-    this.channels = channels;
     asyncStubs = new ArrayList<>(channels.size());
-    for (int i = 0; i < N; ++i) {
+    for (int i = 0; i < serversCount; ++i) {
       asyncStubs.add(PrimesSumCalculatorGrpc.newStub(channels.get(i)));
       servers.add(i);
     }

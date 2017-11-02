@@ -27,7 +27,7 @@ public class Client {
     final String host;
     final int port;
 
-    public Address(String host, int port) {
+    Address(String host, int port) {
       this.host = host;
       this.port = port;
     }
@@ -43,7 +43,7 @@ public class Client {
     dispatcher.sendRequest(range);
   }
 
-  static private int getRequestsCount(long start, long end, int serversCount) {
+  private static int getRequestsCount(long start, long end, int serversCount) {
     int minCount = serversCount * 2;
     int maxCount = serversCount * 20;
     int suggestedCount = (int) (end - start) / (int) (Math.max(1, 1e9 / Math.sqrt(end)));
@@ -59,8 +59,8 @@ public class Client {
     return suggestedCount;
   }
 
-  static private long getIthPoint(long start, long end, int i, int N) {
-    return start + (end - start) / N * i + (Math.min(i, (end - start) % N));
+  private static long getIthPoint(long start, long end, int i, int segmentsCount) {
+    return start + (end - start) / segmentsCount * i + (Math.min(i, (end - start) % segmentsCount));
   }
 
   /**

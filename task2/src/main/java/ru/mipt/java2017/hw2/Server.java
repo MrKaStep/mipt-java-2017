@@ -73,9 +73,8 @@ public class Server {
       exit(-1);
     }
 
-    int cores, port;
-    cores = Integer.valueOf(args[0]);
-    port = Integer.valueOf(args[1]);
+    int cores = Integer.valueOf(args[0]);
+    int port = Integer.valueOf(args[1]);
 
     Server server = new Server();
     server.start(port, cores);
