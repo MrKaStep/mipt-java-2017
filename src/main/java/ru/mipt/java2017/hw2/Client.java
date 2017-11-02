@@ -105,9 +105,6 @@ public class Client {
    */
 
   public static void main(String[] args) throws InterruptedException {
-    for (String arg : args) {
-      System.err.println(arg);
-    }
     if (args.length < 4 || args.length % 2 != 0) {
       System.err.println("Usage: <start> <end> <host1> <port1> [<host2> <port2> ...]");
       return;
