@@ -13,7 +13,7 @@ maven-build:
   only:
   - master
   script:
-    - mvn install -B package:single
+    - mvn package; rm target/task2-1.0-SNAPSHOT.jar
 
 bb-test:
   stage: test
