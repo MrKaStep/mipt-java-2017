@@ -20,4 +20,4 @@ bb-test:
   only:
   - master
   script:
-    - proj_dir=`pwd`; (cd ~/code; ./checker.py -p ${proj_dir})
+    - cat ~/code/checker.py; proj_dir=`pwd`; (cd ~/code; ./checker.py -p ${proj_dir})
