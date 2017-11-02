@@ -13,7 +13,7 @@ maven-build:
   only:
   - master
   script:
-    - mvn install -B
+    - mvn install -B package:single
 
 bb-test:
   stage: test
