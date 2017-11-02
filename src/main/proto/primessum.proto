@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "PrimesSumProto";
+
+package ru.mipt.java2017.hw2;
+
+service PrimesSumCalculator {
+  rpc CalculateSum (Range) returns (PrimesSum) {}
+}
+
+message Range {
+  int64 start = 1;
+  int64 end = 2;
+}
+
+message PrimesSum {
+  int64 value = 1;
+}
