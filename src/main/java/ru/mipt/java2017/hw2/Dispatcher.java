@@ -35,7 +35,7 @@ class Dispatcher {
   private BlockingQueue<Long> results;
   private CountDownLatch latch;
 
-  private int serversAlive;
+  private final CountDownLatch serversAlive;
 
   /**
    * Creates new Dispatcher entry
@@ -60,7 +60,7 @@ class Dispatcher {
       servers.add(i);
     }
 
-    serversAlive = serversCount;
+    serversAlive = new CountDownLatch(serversCount);
   }
 
   /**
@@ -69,7 +69,7 @@ class Dispatcher {
    * @return - servers available //TODO
    */
   int getServersCount() {
-    return serversAlive;
+    return (int) serversAlive.getCount();
   }
 
   /**
@@ -102,8 +102,8 @@ class Dispatcher {
             public void onError(Throwable t) {
               logger.warn("Server {} failed: {}", serverIndex + 1, Status.fromThrowable(t));
               queries.add(query);
-              --serversAlive;
-              if (serversAlive == 0) {
+              serversAlive.countDown();
+              if (serversAlive.getCount() == 0) {
                 logger.error("All servers failed! Shutting down");
                 System.exit(-1);
               }
