@@ -35,6 +35,8 @@ class Dispatcher {
   private BlockingQueue<Long> results;
   private CountDownLatch latch;
 
+  private int serversAlive;
+
   /**
    * Creates new Dispatcher entry
    *
@@ -57,6 +59,8 @@ class Dispatcher {
       asyncStubs.add(PrimesSumCalculatorGrpc.newStub(channels.get(i)));
       servers.add(i);
     }
+
+    serversAlive = serversCount;
   }
 
   /**
@@ -65,7 +69,7 @@ class Dispatcher {
    * @return - servers available //TODO
    */
   int getServersCount() {
-    return channels.size();
+    return serversAlive;
   }
 
   /**
@@ -98,6 +102,11 @@ class Dispatcher {
             public void onError(Throwable t) {
               logger.warn("Server {} failed: {}", serverIndex + 1, Status.fromThrowable(t));
               queries.add(query);
+              --serversAlive;
+              if (serversAlive == 0) {
+                logger.error("All servers failed! Shutting down");
+                System.exit(-1);
+              }
               pushRequests();
             }
 
